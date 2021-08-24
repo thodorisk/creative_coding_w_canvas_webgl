@@ -1,12 +1,15 @@
 const canvasSketch = require('canvas-sketch');
 const { lerp } = require('canvas-sketch-util/math'); //function for linear interpolation
 const random = require('canvas-sketch-util/random'); //deterministic randomness
+const palettes = require('nice-color-palettes');
 
 const settings = {
   dimensions: [2048, 2048]
 };
 
 const sketch = () => {
+  const palette = random.pick(palettes).slice(0, 5); //pick 5 colors
+
   const createGrid = () => {
     const points = [];
     const count = 40;
@@ -18,7 +21,8 @@ const sketch = () => {
 
         // give individual radius to circles
         points.push({
-          radius: Math.abs(random.gaussian() * 0.01), // random.value() ends up with equal distribution of numbers thats why i use gaussian to produce more organic randomness.
+          color: random.pick(palette),
+          radius: Math.abs(random.gaussian() * 0.01), //random.value() ends up with equal distribution of numbers thats why i use gaussian to produce more organic randomness.
           position: [u, v]
         });
       }
@@ -38,7 +42,8 @@ const sketch = () => {
     points.forEach(data => {
       const {
         position,
-        radius
+        radius,
+        color
       } = data;
 
       const [u, v] = position;
@@ -48,7 +53,7 @@ const sketch = () => {
 
       context.beginPath();
       context.arc(x, y, radius * width, 0, Math.PI * 2, false);
-      context.fillStyle = 'red';
+      context.fillStyle = color;
       context.fill();
     })
   };
