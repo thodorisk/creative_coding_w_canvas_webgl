@@ -52,10 +52,14 @@ const sketch = () => {
       const x = lerp(margin, width - margin, u);
       const y = lerp(margin, height - margin, v);
 
-      context.beginPath();
-      context.arc(x, y, radius * width, 0, Math.PI * 2, false);
+      // context.beginPath();
+      // context.arc(x, y, radius * width, 0, Math.PI * 2, false);
+      // context.fillStyle = color;
+      // context.fill();
+
       context.fillStyle = color;
-      context.fill();
+      context.font = `${radius * width}px "Arial"`;
+      context.fillText('=',x , y);
     })
   };
 };
