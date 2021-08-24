@@ -4,6 +4,7 @@ const random = require('canvas-sketch-util/random'); //deterministic randomness
 const palettes = require('nice-color-palettes');
 
 const settings = {
+  suffix: random.getSeed(),
   dimensions: [2048, 2048]
 };
 
