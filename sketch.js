@@ -4,7 +4,7 @@ const random = require('canvas-sketch-util/random'); //deterministic randomness
 const palettes = require('nice-color-palettes');
 
 const settings = {
-  suffix: random.getSeed(),
+  suffix: random.getSeed(), // cmd + K keeps the git hash so that to be able to get back to that seed etc.
   dimensions: [2048, 2048]
 };
 
