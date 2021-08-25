@@ -7,6 +7,9 @@ require("three/examples/js/controls/OrbitControls");
 const canvasSketch = require("canvas-sketch");
 
 const settings = {
+  dimensions: [512, 512],
+  fps: 24,
+  duration: 4,
   // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
@@ -58,8 +61,9 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time }) {
+    render({ playhead }) {
       controls.update();
+      scene.rotation.z = playhead * Math.PI * 2; // Ctrl + shift + s to export all the frames or canvas-sketch-mp4 tmp/ to export mp4 or giftool.surge.sh and move the frames to create a gif.
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
