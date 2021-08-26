@@ -41,7 +41,7 @@ const sketch = ({ context }) => {
   const moonTexture = loader.load("moon.jpg");
 
   // Setup a material
-  const material = new THREE.MeshBasicMaterial({
+  const material = new THREE.MeshStandardMaterial({
     map: earthTexture
   });
 
@@ -51,7 +51,7 @@ const sketch = ({ context }) => {
 
   const moonGroup = new THREE.Group();
 
-  const moonMaterial = new THREE.MeshBasicMaterial({
+  const moonMaterial = new THREE.MeshStandardMaterial({
     map: moonTexture
   });
 
@@ -61,6 +61,12 @@ const sketch = ({ context }) => {
   moonGroup.add(moonMesh);
 
   scene.add(moonGroup);
+
+  const light = new THREE.PointLight('white', 2);
+  light.position.set(2,2,2);
+  moonGroup.add(light);
+
+  scene.add(new THREE.PointLightHelper(light, 0.2)); //for debugging reasons. Check also axes helper and grid helper.
 
   // draw each frame
   return {
