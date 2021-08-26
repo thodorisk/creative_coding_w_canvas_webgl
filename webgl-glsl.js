@@ -7,9 +7,6 @@ require("three/examples/js/controls/OrbitControls");
 const canvasSketch = require("canvas-sketch");
 
 const settings = {
-  dimensions: 'letter',
-  pixelsPerInch: 300, // for printing reasons,
-  scaleToView: true, // for dev reasons scale it but print original size
   // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
@@ -23,11 +20,11 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor("#fff", 1);
+  renderer.setClearColor("#000", 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-  camera.position.set(0, 0, -4);
+  camera.position.set(3, 3, -5);
   camera.lookAt(new THREE.Vector3());
 
   // Setup camera controller
@@ -39,15 +36,31 @@ const sketch = ({ context }) => {
   // Setup a geometry
   const geometry = new THREE.SphereGeometry(1, 32, 16);
 
+  const loader = new THREE.TextureLoader();
+  const earthTexture = loader.load("earth.jpg");
+  const moonTexture = loader.load("moon.jpg");
+
   // Setup a material
   const material = new THREE.MeshBasicMaterial({
-    color: "red",
-    wireframe: true
+    map: earthTexture
   });
 
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+
+  const moonGroup = new THREE.Group();
+
+  const moonMaterial = new THREE.MeshBasicMaterial({
+    map: moonTexture
+  });
+
+  const moonMesh = new THREE.Mesh(geometry, moonMaterial);
+  moonMesh.position.set(1.5, 1, 0);
+  moonMesh.scale.setScalar(0.25);
+  moonGroup.add(moonMesh);
+
+  scene.add(moonGroup);
 
   // draw each frame
   return {
@@ -60,6 +73,10 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time }) {
+      mesh.rotation.y = time * 0.2;
+      moonMesh.rotation.y = time * 0.1;
+      moonGroup.rotation.y = time * 0.5;
+
       controls.update();
       renderer.render(scene, camera);
     },
