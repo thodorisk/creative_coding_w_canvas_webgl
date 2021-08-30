@@ -47,14 +47,18 @@ const sketch = ({ context }) => {
 
   const fragmentShader = /* glsl */`
     varying vec2 vUv;
+    uniform vec3 color;
 
     void main () {
-      gl_FragColor = vec4(vec3(vUv.x), 1.0);
+      gl_FragColor = vec4(vec3(vUv.x) * color, 1.0);
     }
   `;
 
   // Setup a material
   const material = new THREE.ShaderMaterial({
+    uniforms: {
+      color: {value: new THREE.Color("#ff00ff")}
+    },
     vertexShader,
     fragmentShader
   });
