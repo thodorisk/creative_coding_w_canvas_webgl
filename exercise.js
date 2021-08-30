@@ -57,7 +57,9 @@ const sketch = ({ context }) => {
       float mask = step(0.25 + sin(time + vUv.x * 2.0) * 0.25, d); //same as d > 0.25 ? 1.0 : 0.0 but more performant.
       mask = 1.0 - mask;
 
-      gl_FragColor = vec4(vec3(mask), 1.0);
+      vec3 fragColor = mix(color, vec3(1.0), mask);
+
+      gl_FragColor = vec4(vec3(fragColor), 1.0);
     }
   `;
 
@@ -65,7 +67,7 @@ const sketch = ({ context }) => {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       time: {value: 0},
-      color: {value: new THREE.Color("#fff")}
+      color: {value: new THREE.Color("tomato")}
     },
     vertexShader,
     fragmentShader
